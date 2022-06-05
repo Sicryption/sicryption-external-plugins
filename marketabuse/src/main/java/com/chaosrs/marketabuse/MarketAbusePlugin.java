@@ -3,11 +3,14 @@ package com.chaosrs.marketabuse;
 import com.google.inject.Provides;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
+import net.runelite.api.GrandExchangeOffer;
+import net.runelite.api.GrandExchangeOfferState;
 import net.runelite.api.events.GameTick;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.api.events.GrandExchangeOfferChanged;
 import org.pf4j.Extension;
 
 @Extension
@@ -16,44 +19,45 @@ import org.pf4j.Extension;
 	description = "Integration with the MarketAbuse application"
 )
 @Slf4j
-public class JavaExamplePlugin extends Plugin
+public class MarketAbusePlugin extends Plugin
 {
+	GrandExchangeOffer grandExchangeOffers[];
+
 	// Injects our config
 	@Inject
-	private JavaExampleConfig config;
+	private MarketAbuseConfig config;
 
 	// Provides our config
 	@Provides
-	JavaExampleConfig provideConfig(ConfigManager configManager)
+	MarketAbuseConfig provideConfig(ConfigManager configManager)
 	{
-		return configManager.getConfig(JavaExampleConfig.class);
+		return configManager.getConfig(MarketAbuseConfig.class);
 	}
 
 	@Override
 	protected void startUp()
 	{
 		// runs on plugin startup
-		log.info("Plugin started");
-
-		// example how to use config items
-		if (config.example())
-		{
-			// do stuff
-			log.info("The value of 'config.example()' is ${config.example()}");
-		}
+		log.info("MarketAbuse started");
+		grandExchangeOffers = new GrandExchangeOffer[8];
 	}
 
 	@Override
 	protected void shutDown()
 	{
 		// runs on plugin shutdown
-		log.info("Plugin stopped");
+		log.info("MarketAbuse stopped");
 	}
 
 	@Subscribe
 	private void onGameTick(GameTick gameTick)
 	{
 		// runs every gametick
-		log.info("Gametick");
+		log.info("On GameTick");
+	}
+
+	@Subscribe
+	public void onGrandExchangeOfferChanged(GrandExchangeOfferChanged offerChangedEvent) {
+		grandExchangeOffers[offerChangedEvent.getSlot()] = offerChangedEvent.getOffer();
 	}
 }

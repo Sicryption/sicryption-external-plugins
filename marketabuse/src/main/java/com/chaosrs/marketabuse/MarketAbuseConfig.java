@@ -28,18 +28,9 @@ import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 
-@ConfigGroup("JavaExampleConfig")
+@ConfigGroup("MarketAbuseConfig")
 
-public interface JavaExampleConfig extends Config
+public interface MarketAbuseConfig extends Config
 {
-	@ConfigItem(
-		keyName = "example",
-		name = "Example config item",
-		description = "Example",
-		position = 0
-	)
-	default boolean example()
-	{
-		return true;
-	}
+
 }
