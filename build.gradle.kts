@@ -8,14 +8,14 @@ plugins {
     checkstyle
 }
 
-project.extra["GithubUrl"] = "https://github.com/<INSERT NAME>/<INSERT REPOSITORY>"
+project.extra["GithubUrl"] = "https://github.com/Sicryption/sicryption-external-plugins"
 
 apply<BootstrapPlugin>()
 
 subprojects {
-    group = "com.example"
+    group = "com.chaosrs"
 
-    project.extra["PluginProvider"] = ""
+    project.extra["PluginProvider"] = "Sicryption"
     project.extra["ProjectSupportUrl"] = ""
     project.extra["PluginLicense"] = "3-Clause BSD License"
 

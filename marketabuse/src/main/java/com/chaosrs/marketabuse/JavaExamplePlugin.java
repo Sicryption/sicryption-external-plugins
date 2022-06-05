@@ -1,4 +1,4 @@
-package com.example.javaexample;
+package com.chaosrs.marketabuse;
 
 import com.google.inject.Provides;
 import javax.inject.Inject;
@@ -12,8 +12,8 @@ import org.pf4j.Extension;
 
 @Extension
 @PluginDescriptor(
-	name = "Java example",
-	description = "Java example"
+	name = "MarketAbuse",
+	description = "Integration with the MarketAbuse application"
 )
 @Slf4j
 public class JavaExamplePlugin extends Plugin
