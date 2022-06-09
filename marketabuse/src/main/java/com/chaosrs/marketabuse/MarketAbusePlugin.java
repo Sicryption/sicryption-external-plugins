@@ -13,6 +13,8 @@ import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.api.events.GrandExchangeOfferChanged;
 import org.pf4j.Extension;
 
+import java.io.IOException;
+
 @Extension
 @PluginDescriptor(
 	name = "MarketAbuse",
@@ -22,6 +24,7 @@ import org.pf4j.Extension;
 public class MarketAbusePlugin extends Plugin
 {
 	GrandExchangeOffer grandExchangeOffers[];
+	MarketAbuseTCPClient client;
 
 	// Injects our config
 	@Inject
@@ -35,29 +38,27 @@ public class MarketAbusePlugin extends Plugin
 	}
 
 	@Override
-	protected void startUp()
-	{
-		// runs on plugin startup
-		log.info("MarketAbuse started");
+	protected void startUp() throws IOException {
 		grandExchangeOffers = new GrandExchangeOffer[8];
+		client = new MarketAbuseTCPClient();
 	}
 
 	@Override
 	protected void shutDown()
 	{
-		// runs on plugin shutdown
-		log.info("MarketAbuse stopped");
 	}
 
 	@Subscribe
 	private void onGameTick(GameTick gameTick)
 	{
-		// runs every gametick
-		log.info("On GameTick");
 	}
 
 	@Subscribe
-	public void onGrandExchangeOfferChanged(GrandExchangeOfferChanged offerChangedEvent) {
+	public void onGrandExchangeOfferChanged(GrandExchangeOfferChanged offerChangedEvent) throws IOException {
 		grandExchangeOffers[offerChangedEvent.getSlot()] = offerChangedEvent.getOffer();
+
+		System.out.println("GE Offer Changed!");
+
+		client.sendMessage(new GEOfferMessage(offerChangedEvent.getOffer()));
 	}
 }
